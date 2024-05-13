@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wayne's Hero Helper</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #333; /* Dark grey background */
+            color: #fff; /* White text color */
+        }
+        h1 {
+            margin-bottom: 20px; /* Space between header and input */
+        }
+     .container {
+            text-align: center;
+            position: relative; /* Needed for absolute positioning of the suggestions list */
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            margin-left: 10px;
+            background-color: #007bff; /* Blue button background */
+            color: white; /* White button text */
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+     .suggestions {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            position: absolute;
+            background-color: #fff;
+            color: #333;
+            border: 1px solid #ccc;
+            width: 100%;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+     .suggestions li {
+            padding: 5px;
+            cursor: pointer;
+        }
+     .suggestions li:hover {
+            background-color: #f1f1f1;
+        }
+     .highlight {
+            background-color: #007bff; /* Highlight color */
+            color: white; /* Text color for highlight */
+        }
+    </style>
+</head>
+<body>
+    <h1>Wayne's Hero Helper</h1>
+    <div class="container">
+        <input type="text" id="championName" placeholder="Enter champion name" onkeydown="if (event.key === 'Enter') openWebsites(); if (event.key === 'Tab') autofillInput();">
+        <button onclick="openWebsites()">Learn Champion</button>
+        <ul class="suggestions" id="suggestions"></ul>
+    </div>
+
+    <script>
+        const champions = [
+            'Aatrox', 'Ahri', 'Akali', 'Akshan', 'Alistar', 'Amumu', 'Anivia', 'Annie',
+            'Aphelios', 'Ashe', 'Aurelion Sol', 'Azir', 'Bard', 'Bel\'Veth', 'Blitzcrank', 'Brand', 'Braum', 'Briar',
+            'Caitlyn', 'Camille', 'Cassiopeia', 'Cho\'Gath', 'Corki', 'Darius', 'Diana', 'Draven',
+            'Dr. Mundo', 'Ekko', 'Elise', 'Evelynn', 'Ezreal', 'Fiddlesticks', 'Fiora', 'Fizz',
+            'Galio', 'Gangplank', 'Garen', 'Gnar', 'Gragas', 'Graves', 'Gwen', 'Hecarim',
+            'Heimerdinger', 'Hwei', 'Illaoi', 'Irelia', 'Ivern', 'Janna', 'Jarvan IV', 'Jax', 'Jayce',
+            'Jhin', 'Jinx', 'Kai\'Sa', 'Kalista', 'Karma', 'Karthus', 'Kassadin', 'Katarina',
+            'Kayle', 'Kayn', 'Kennen', 'Kha\'Zix', 'Kindred', 'Kled', 'Kog\'Maw', 'K\'Sante', 'LeBlanc',
+            'Lee Sin', 'Leona', 'Lillia', 'Lissandra', 'Lucian', 'Lulu', 'Lux', 'Malphite',
+            'Malzahar', 'Maokai', 'Master Yi', 'Milio', 'Miss Fortune', 'Mordekaiser', 'Morgana', 'Naafiri', 'Nami', 'Nasus',
+            'Nautilus', 'Neeko', 'Nidalee', 'Nilah', 'Nocturne', 'Nunu & Willump', 'Olaf', 'Orianna',
+            'Ornn', 'Pantheon', 'Poppy', 'Pyke', 'Qiyana', 'Quinn', 'Rakan', 'Rammus',
+            'Rek\'Sai', 'Rell', 'Renata Glasc', 'Renekton', 'Rengar', 'Riven', 'Rumble', 'Ryze',
+            'Samira', 'Sejuani', 'Senna', 'Seraphine', 'Sett', 'Shaco', 'Shen', 'Shyvana',
+            'Singed', 'Sion', 'Sivir', 'Skarner', 'Smolder', 'Sona', 'Soraka', 'Swain', 'Sylas',
+            'Syndra', 'Tahm Kench', 'Taliyah', 'Talon', 'Taric', 'Teemo', 'Thresh', 'Tristana',
+            'Trundle', 'Tryndamere', 'Twisted Fate', 'Twitch', 'Udyr', 'Urgot', 'Varus', 'Vayne',
+            'Veigar', 'Vel\'Koz', 'Vex', 'Vi', 'Viego', 'Viktor', 'Vladimir', 'Volibear',
+            'Warwick', 'Wukong', 'Xayah', 'Xerath', 'Xin Zhao', 'Yasuo', 'Yone', 'Yorick',
+            'Yuumi', 'Zac', 'Zed', 'Zeri', 'Ziggs', 'Zilean', 'Zoe', 'Zyra'
+        ];
+
+		function openWebsites() {
+			const championName = document.getElementById('championName').value;
+			// Remove spaces and replace non-alphanumeric characters with '-'
+			const sanitizedChampionName = championName.replace(/\s/g, '').replace(/[^a-zA-Z0-9]/g, '-');
+			const url1 = `https://www.leagueoflegends.com/en-us/champions/${sanitizedChampionName}`;
+			const url2 = `https://u.gg/lol/champions/aram/${championName}-aram`;
+
+			// Swap the order of opening the URLs
+			window.open(url2, '_blank'); // Open the second URL first
+			window.open(url1, '_blank'); // Then open the first URL
+
+			// Clear the input field after opening the websites
+			document.getElementById('championName').value = '';
+		}
+
+
+        function showSuggestions(inputValue) {
+            const suggestionsList = document.getElementById('suggestions');
+            suggestionsList.innerHTML = ''; // Clear previous suggestions
+
+            if (inputValue.length > 0) {
+                const filteredChampions = champions.filter(champion => champion.toLowerCase().startsWith(inputValue.toLowerCase()));
+                filteredChampions.forEach(champion => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = champion;
+                    listItem.addEventListener('click', () => {
+                        document.getElementById('championName').value = champion;
+                        suggestionsList.innerHTML = ''; // Clear suggestions on selection
+                    });
+                    suggestionsList.appendChild(listItem);
+                });
+
+                // Highlight the first suggestion if there's only one
+                if (filteredChampions.length === 1) {
+                    const firstListItem = suggestionsList.firstChild;
+                    if (firstListItem) {
+                        firstListItem.classList.add('highlight');
+                    }
+                }
+            }
+        }
+
+        document.getElementById('championName').addEventListener('input', function() {
+            showSuggestions(this.value);
+        });
+
+        function autofillInput() {
+            const championName = document.getElementById('championName').value;
+            const filteredChampions = champions.filter(champion => champion.toLowerCase().startsWith(championName.toLowerCase()));
+            if (filteredChampions.length === 1) {
+                document.getElementById('championName').value = filteredChampions[0];
+                document.getElementById('suggestions').innerHTML = ''; // Clear suggestions on autofill
+            }
+        }
+    </script>
+</body>
+</html>
