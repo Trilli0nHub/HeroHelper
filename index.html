@@ -95,9 +95,12 @@
         ];
 
 		function openWebsites() {
-			const championName = document.getElementById('championName').value;
-			// Remove spaces and replace non-alphanumeric characters with '-'
-			const sanitizedChampionName = championName.replace(/\s/g, '').replace(/[^a-zA-Z0-9]/g, '-');
+			let championName = document.getElementById('championName').value;
+			// Check if the entered name is "Tahm Kench" and adjust the URL accordingly
+			let sanitizedChampionName = championName.replace(/\s/g, '').replace(/[^a-zA-Z0-9]/g, '-');
+			if (championName === "Tahm Kench") {
+				sanitizedChampionName = "Tahm-Kench"; // Special case for Tahm Kench
+			}
 			const url1 = `https://www.leagueoflegends.com/en-us/champions/${sanitizedChampionName}`;
 			const url2 = `https://u.gg/lol/champions/aram/${championName}-aram`;
 
@@ -108,7 +111,6 @@
 			// Clear the input field after opening the websites
 			document.getElementById('championName').value = '';
 		}
-
 
         function showSuggestions(inputValue) {
             const suggestionsList = document.getElementById('suggestions');
