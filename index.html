@@ -106,26 +106,27 @@
             'Yuumi', 'Zac', 'Zed', 'Zeri', 'Ziggs', 'Zilean', 'Zoe', 'Zyra'
         ];
 
-        function openWebsites() {
-            let championName = document.getElementById('championName').value;
-            // Check if the entered name is "Tahm Kench" and adjust the URL accordingly
-            let sanitizedChampionName = championName.replace(/\s/g, '').replace(/[^a-zA-Z0-9]/g, '-');
-            if (championName === "Tahm Kench") {
-                sanitizedChampionName = "Tahm-Kench"; // Special case for Tahm Kench
-            }
-            const url1 = `https://www.leagueoflegends.com/en-us/champions/${sanitizedChampionName}`;
-            const url2 = `https://u.gg/lol/champions/aram/${championName}-aram`;
+		function openWebsites() {
+			let championName = document.getElementById('championName').value;
+			// Check if the entered name is "Tahm Kench" and adjust the URL accordingly
+			let sanitizedChampionName = championName.replace(/\s/g, '').replace(/[^a-zA-Z0-9]/g, '-');
+			if (championName === "Tahm Kench") {
+				sanitizedChampionName = "Tahm-Kench"; // Special case for Tahm Kench
+			}
+			const url1 = `https://www.leagueoflegends.com/en-us/champions/${sanitizedChampionName}`;
+			const url2 = `https://u.gg/lol/champions/aram/${championName}-aram`;
 
-            window.open(url1, '_blank'); // Open the first URL
+			// Check the state of the toggle before opening the second URL
+			if (document.getElementById('toggleSecondURL').checked) {
+				window.open(url2, '_blank'); // Open the second URL if the checkbox is checked
+			}
 
-            // Check the state of the toggle before opening the second URL
-            if (document.getElementById('toggleSecondURL').checked) {
-                window.open(url2, '_blank'); // Open the second URL if the checkbox is checked
-            }
+			window.open(url1, '_blank'); // Open the first URL
 
-            // Clear the input field after opening the websites
-            document.getElementById('championName').value = '';
-        }
+			// Clear the input field after opening the websites
+			document.getElementById('championName').value = '';
+		}
+
 
         function showSuggestions(inputValue) {
             const suggestionsList = document.getElementById('suggestions');
