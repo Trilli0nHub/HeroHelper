@@ -19,7 +19,7 @@
         h1 {
             margin-bottom: 20px; /* Space between header and input */
         }
-     .container {
+        .container {
             text-align: center;
             position: relative; /* Needed for absolute positioning of the suggestions list */
         }
@@ -37,7 +37,7 @@
         button:hover {
             background-color: #0056b3; /* Darker blue on hover */
         }
-     .suggestions {
+        .suggestions {
             list-style-type: none;
             padding: 0;
             margin: 0;
@@ -49,16 +49,24 @@
             max-height: 150px;
             overflow-y: auto;
         }
-     .suggestions li {
+        .suggestions li {
             padding: 5px;
             cursor: pointer;
         }
-     .suggestions li:hover {
+        .suggestions li:hover {
             background-color: #f1f1f1;
         }
-     .highlight {
+        .highlight {
             background-color: #007bff; /* Highlight color */
             color: white; /* Text color for highlight */
+        }
+        .toggle-container {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .toggle-container input {
+            margin-right: 10px;
         }
     </style>
 </head>
@@ -68,6 +76,10 @@
         <input type="text" id="championName" placeholder="Enter champion name" onkeydown="if (event.key === 'Enter') openWebsites(); if (event.key === 'Tab') autofillInput();">
         <button onclick="openWebsites()">Learn Champion</button>
         <ul class="suggestions" id="suggestions"></ul>
+    </div>
+    <div class="toggle-container">
+        <input type="checkbox" id="toggleSecondURL" checked>
+        <label for="toggleSecondURL">Open ARAM guide</label>
     </div>
 
     <script>
@@ -94,23 +106,26 @@
             'Yuumi', 'Zac', 'Zed', 'Zeri', 'Ziggs', 'Zilean', 'Zoe', 'Zyra'
         ];
 
-		function openWebsites() {
-			let championName = document.getElementById('championName').value;
-			// Check if the entered name is "Tahm Kench" and adjust the URL accordingly
-			let sanitizedChampionName = championName.replace(/\s/g, '').replace(/[^a-zA-Z0-9]/g, '-');
-			if (championName === "Tahm Kench") {
-				sanitizedChampionName = "Tahm-Kench"; // Special case for Tahm Kench
-			}
-			const url1 = `https://www.leagueoflegends.com/en-us/champions/${sanitizedChampionName}`;
-			const url2 = `https://u.gg/lol/champions/aram/${championName}-aram`;
+        function openWebsites() {
+            let championName = document.getElementById('championName').value;
+            // Check if the entered name is "Tahm Kench" and adjust the URL accordingly
+            let sanitizedChampionName = championName.replace(/\s/g, '').replace(/[^a-zA-Z0-9]/g, '-');
+            if (championName === "Tahm Kench") {
+                sanitizedChampionName = "Tahm-Kench"; // Special case for Tahm Kench
+            }
+            const url1 = `https://www.leagueoflegends.com/en-us/champions/${sanitizedChampionName}`;
+            const url2 = `https://u.gg/lol/champions/aram/${championName}-aram`;
 
-			// Swap the order of opening the URLs
-			window.open(url2, '_blank'); // Open the second URL first
-			window.open(url1, '_blank'); // Then open the first URL
+            window.open(url1, '_blank'); // Open the first URL
 
-			// Clear the input field after opening the websites
-			document.getElementById('championName').value = '';
-		}
+            // Check the state of the toggle before opening the second URL
+            if (document.getElementById('toggleSecondURL').checked) {
+                window.open(url2, '_blank'); // Open the second URL if the checkbox is checked
+            }
+
+            // Clear the input field after opening the websites
+            document.getElementById('championName').value = '';
+        }
 
         function showSuggestions(inputValue) {
             const suggestionsList = document.getElementById('suggestions');
