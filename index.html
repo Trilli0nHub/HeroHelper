@@ -108,11 +108,42 @@
 
 		function openWebsites() {
 			let championName = document.getElementById('championName').value;
-			// Check if the entered name is "Tahm Kench" and adjust the URL accordingly
+			// Sanitize the champion name for URL creation
 			let sanitizedChampionName = championName.replace(/\s/g, '').replace(/[^a-zA-Z0-9]/g, '-');
-			if (championName === "Tahm Kench") {
-				sanitizedChampionName = "Tahm-Kench"; // Special case for Tahm Kench
+
+			// Add overrides for specific champions
+			switch (championName) {
+				case "Tahm Kench":
+					sanitizedChampionName = "Tahm-Kench";
+					break;
+				case "Aurelion Sol":
+					sanitizedChampionName = "Aurelion-Sol";
+					break;
+				case "Jarvan IV":
+					sanitizedChampionName = "Jarvan-IV";
+					break;
+				case "Master Yi":
+					sanitizedChampionName = "Master-Yi";
+					break;
+				case "Miss Fortune":
+					sanitizedChampionName = "Miss-Fortune";
+					break;
+				case "Twisted Fate":
+					sanitizedChampionName = "Twisted-Fate";
+					break;
+				case "Xin Zhao":
+					sanitizedChampionName = "Xin-Zhao";
+					break;
+				case "Nunu & Willump":
+					sanitizedChampionName = "Nunu";
+					championName = "Nunu"; // Adjust championName for the second URL
+					break;
+				case "Renata Glasc":
+					sanitizedChampionName = "Renata";
+					championName = "Renata"; // Adjust championName for the second URL
+					break;
 			}
+
 			const url1 = `https://www.leagueoflegends.com/en-us/champions/${sanitizedChampionName}`;
 			const url2 = `https://u.gg/lol/champions/aram/${championName}-aram`;
 
@@ -126,7 +157,6 @@
 			// Clear the input field after opening the websites
 			document.getElementById('championName').value = '';
 		}
-
 
         function showSuggestions(inputValue) {
             const suggestionsList = document.getElementById('suggestions');
