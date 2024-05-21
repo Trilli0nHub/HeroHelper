@@ -19,7 +19,7 @@
         h1 {
             margin-bottom: 20px; /* Space between header and input */
         }
-        .container {
+      .container {
             text-align: center;
             position: relative; /* Needed for absolute positioning of the suggestions list */
         }
@@ -37,7 +37,7 @@
         button:hover {
             background-color: #0056b3; /* Darker blue on hover */
         }
-        .suggestions {
+      .suggestions {
             list-style-type: none;
             padding: 0;
             margin: 0;
@@ -49,23 +49,23 @@
             max-height: 150px;
             overflow-y: auto;
         }
-        .suggestions li {
+      .suggestions li {
             padding: 5px;
             cursor: pointer;
         }
-        .suggestions li:hover {
+      .suggestions li:hover {
             background-color: #f1f1f1;
         }
-        .highlight {
+      .highlight {
             background-color: #007bff; /* Highlight color */
             color: white; /* Text color for highlight */
         }
-        .toggle-container {
+      .toggle-container {
             margin-top: 20px;
             display: flex;
             align-items: center;
         }
-        .toggle-container input {
+      .toggle-container input {
             margin-right: 10px;
         }
     </style>
@@ -109,43 +109,43 @@
 		function openWebsites() {
 			let championName = document.getElementById('championName').value;
 			// Sanitize the champion name for URL creation
-			let sanitizedChampionName = championName.replace(/\s/g, '').replace(/[^a-zA-Z0-9]/g, '-');
+			let sanitizedChampionName = championName.replace(/\s/g, '').replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
 
 			// Add overrides for specific champions
 			switch (championName) {
 				case "Tahm Kench":
-					sanitizedChampionName = "Tahm-Kench";
+					sanitizedChampionName = "tahm-kench";
 					break;
 				case "Aurelion Sol":
-					sanitizedChampionName = "Aurelion-Sol";
+					sanitizedChampionName = "aurelion-sol";
 					break;
 				case "Jarvan IV":
-					sanitizedChampionName = "Jarvan-IV";
+					sanitizedChampionName = "jarvan-iv";
 					break;
 				case "Master Yi":
-					sanitizedChampionName = "Master-Yi";
+					sanitizedChampionName = "master-yi";
 					break;
 				case "Miss Fortune":
-					sanitizedChampionName = "Miss-Fortune";
+					sanitizedChampionName = "miss-fortune";
 					break;
 				case "Twisted Fate":
-					sanitizedChampionName = "Twisted-Fate";
+					sanitizedChampionName = "twisted-fate";
 					break;
 				case "Xin Zhao":
-					sanitizedChampionName = "Xin-Zhao";
+					sanitizedChampionName = "xin-zhao";
 					break;
 				case "Nunu & Willump":
-					sanitizedChampionName = "Nunu";
+					sanitizedChampionName = "nunu";
 					championName = "Nunu"; // Adjust championName for the second URL
 					break;
 				case "Renata Glasc":
-					sanitizedChampionName = "Renata";
+					sanitizedChampionName = "renata";
 					championName = "Renata"; // Adjust championName for the second URL
 					break;
 			}
 
 			const url1 = `https://www.leagueoflegends.com/en-us/champions/${sanitizedChampionName}`;
-			const url2 = `https://u.gg/lol/champions/aram/${championName}-aram`;
+			const url2 = `https://u.gg/lol/champions/aram/${championName.toLowerCase()}-aram`;
 
 			// Check the state of the toggle before opening the second URL
 			if (document.getElementById('toggleSecondURL').checked) {
