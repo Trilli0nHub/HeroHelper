@@ -13,13 +13,13 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #333; /* Dark grey background */
+            background-color: #222; /* Dark grey background */
             color: #fff; /* White text color */
         }
         h1 {
-            margin-bottom: 20px; /* Space between header and input */
+            margin-bottom: 20; /* Space between header and input */
         }
-      .container {
+       .container {
             text-align: center;
             position: relative; /* Needed for absolute positioning of the suggestions list */
         }
@@ -37,7 +37,7 @@
         button:hover {
             background-color: #0056b3; /* Darker blue on hover */
         }
-      .suggestions {
+       .suggestions {
             list-style-type: none;
             padding: 0;
             margin: 0;
@@ -49,24 +49,27 @@
             max-height: 150px;
             overflow-y: auto;
         }
-      .suggestions li {
+       .suggestions li {
             padding: 5px;
             cursor: pointer;
         }
-      .suggestions li:hover {
+       .suggestions li:hover {
             background-color: #f1f1f1;
         }
-      .highlight {
+       .highlight {
             background-color: #007bff; /* Highlight color */
             color: white; /* Text color for highlight */
         }
-      .toggle-container {
+       .toggle-container {
             margin-top: 20px;
             display: flex;
             align-items: center;
         }
-      .toggle-container input {
+       .toggle-container input {
             margin-right: 10px;
+        }
+       .toggle-container br { /* Added CSS for increased spacing */
+            margin-right: 30px;
         }
     </style>
 </head>
@@ -78,6 +81,9 @@
         <ul class="suggestions" id="suggestions"></ul>
     </div>
     <div class="toggle-container">
+        <input type="checkbox" id="toggleFirstURL" checked>
+        <label for="toggleFirstURL">Open Move Guide    </label>
+        <br>
         <input type="checkbox" id="toggleSecondURL" checked>
         <label for="toggleSecondURL">Open ARAM guide</label>
     </div>
@@ -106,57 +112,56 @@
             'Yuumi', 'Zac', 'Zed', 'Zeri', 'Ziggs', 'Zilean', 'Zoe', 'Zyra'
         ];
 
-		function openWebsites() {
-			let championName = document.getElementById('championName').value;
-			// Sanitize the champion name for URL creation
-			let sanitizedChampionName = championName.replace(/\s/g, '').replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+        function openWebsites() {
+            let championName = document.getElementById('championName').value;
+            let sanitizedChampionName = championName.replace(/\s/g, '').replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
 
-			// Add overrides for specific champions
-			switch (championName) {
-				case "Tahm Kench":
-					sanitizedChampionName = "tahm-kench";
-					break;
-				case "Aurelion Sol":
-					sanitizedChampionName = "aurelion-sol";
-					break;
-				case "Jarvan IV":
-					sanitizedChampionName = "jarvan-iv";
-					break;
-				case "Master Yi":
-					sanitizedChampionName = "master-yi";
-					break;
-				case "Miss Fortune":
-					sanitizedChampionName = "miss-fortune";
-					break;
-				case "Twisted Fate":
-					sanitizedChampionName = "twisted-fate";
-					break;
-				case "Xin Zhao":
-					sanitizedChampionName = "xin-zhao";
-					break;
-				case "Nunu & Willump":
-					sanitizedChampionName = "nunu";
-					championName = "Nunu"; // Adjust championName for the second URL
-					break;
-				case "Renata Glasc":
-					sanitizedChampionName = "renata";
-					championName = "Renata"; // Adjust championName for the second URL
-					break;
-			}
+            switch (championName) {
+                case "Tahm Kench":
+                    sanitizedChampionName = "tahm-kench";
+                    break;
+                case "Aurelion Sol":
+                    sanitizedChampionName = "aurelion-sol";
+                    break;
+                case "Jarvan IV":
+                    sanitizedChampionName = "jarvan-iv";
+                    break;
+                case "Master Yi":
+                    sanitizedChampionName = "master-yi";
+                    break;
+                case "Miss Fortune":
+                    sanitizedChampionName = "miss-fortune";
+                    break;
+                case "Twisted Fate":
+                    sanitizedChampionName = "twisted-fate";
+                    break;
+                case "Xin Zhao":
+                    sanitizedChampionName = "xin-zhao";
+                    break;
+                case "Nunu & Willump":
+                    sanitizedChampionName = "nunu";
+                    championName = "Nunu";
+                    break;
+                case "Renata Glasc":
+                    sanitizedChampionName = "renata";
+                    championName = "Renata";
+                    break;
+            }
 
-			const url1 = `https://www.leagueoflegends.com/en-us/champions/${sanitizedChampionName}`;
-			const url2 = `https://u.gg/lol/champions/aram/${championName.toLowerCase()}-aram`;
+            const url1 = `https://www.leagueoflegends.com/en-us/champions/${sanitizedChampionName}`;
+            const url2 = `https://u.gg/lol/champions/aram/${championName.toLowerCase()}-aram`;
 
-			// Check the state of the toggle before opening the second URL
-			if (document.getElementById('toggleSecondURL').checked) {
-				window.open(url2, '_blank'); // Open the second URL if the checkbox is checked
-			}
+            if (document.getElementById('toggleSecondURL').checked) {
+                window.open(url2, '_blank'); // Open the second URL first
+            }
 
-			window.open(url1, '_blank'); // Open the first URL
+            if (document.getElementById('toggleFirstURL').checked) {
+                window.open(url1, '_blank'); // Open the first URL next
+            }
 
-			// Clear the input field after opening the websites
-			document.getElementById('championName').value = '';
-		}
+            document.getElementById('championName').value = '';
+        }
+
 
         function showSuggestions(inputValue) {
             const suggestionsList = document.getElementById('suggestions');
